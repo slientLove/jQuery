@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>插件</title>
+	<style type="text/css"></style>
+	<script src="jquery.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			jQuery.fn.alternateRowColor = function(){
+				//这里用this，引用的是调用该方法的jQuery对象
+				$('tbody tr:odd',this).removeClass('even').addClass('odd');
+				$('tbody tr:even',this).removeClass('odd').addClass('even');
+				return this;		//此处返回this可以保证在后面连缀其他方法
+			};
+			//解决前面函数低效能问题
+			//先从低效率开始，此处的column是上文定义的,赋的初值为3
+			//rows是一个所有行的数组集合
+			rows.sort(function(a,b){
+				rows.sort(function(a,b){
+				var keyA = $(a).children('td').eq(column).text().toUpperCase();
+				var keyB = $(b).children('td').eq(column).text().toUpperCase();
+				if(keyA<keyB) return -1;
+				if(keyA>keyB) return 1;
+				return 0;
+				});
+			});
+			$.each(rows,function(index,row){
+				$table.children('tbody').append(row);
+			});
+
+
+			//改进效率后
+			$.each(rows,function(index,row){
+		//给每一行添加一个扩展，提出对关键字的计算，把结果保存在一个新属性中，这个属性就是扩展的
+				row.sortKey = $(row).childrens('td').eq(column).text().toUpperCase();
+			});
+			rows.sort(function(a,b){
+				if(a.sortKey<b.sortKey) return -1;
+				if(a.sortKey>b.sortKey) return -1;
+				return 0;
+			});
+			$.each(rows,function(index,row){
+				$table.children('tbody').append(row);
+				row.sortKey = null;			//手动释放添加的属性
+			})
+
+		});
+		
+
+		
+
+	</script>
+</head>
+<body>
+
+</body>
+</html>

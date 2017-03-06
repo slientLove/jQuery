@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>表单验证</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<form id="oForm">
+		<fieldset>
+			<legend>用户登录</legend>
+			<p>
+				<label>用户名:</label>
+				<input type="text" name="username">
+			</p>
+			<p>
+				<label>密码:</label>
+				<input type="password" name="password" id="password">
+			</p>
+			<p>
+				<label>确认密码:</label>
+				<input type="password" name="confirm-password" id="confirm-password">
+			</p>
+			<p>
+				<input type="submit" name="submit">
+			</p>
+		</fieldset>
+	</form>
+
+	<script src="../jquery.js"></script>
+	<script src="jquery.validate.js"></script>
+	<script>
+		var validator;
+		$(document).ready(function(){
+			//以json的形式储存数据
+			validator = $('#oForm').validate({
+				rules:{		//自处的json名称，为表单的name值，不是id值
+					username:{
+						//maxlength:16,
+						minlength:2,
+						required:true,
+						//如果要验证电子邮件,既可以添加email属性
+						//email:[2,10]
+
+					//填写url时，前面要添加完整的http://,否则不识别
+						//url:true
+
+					//使用date日期格式的范围比较大，比较宽泛
+						//date:true	
+
+					//dateISO:true    //dateISO格式比较严格，2016/12/03，年月日
+
+					//number:true   number只要是数字都行，允许带小数
+					//digits:true	//digits只匹配正整数,不允许带有小数	
+
+					},
+					password:{
+						maxlength:8,
+						minlength:2,
+						required:true
+					},
+					'confirm-password':{		//连字符，此处要加引号
+						equalTo:'#password'
+					}
+				},
+				messages:{		//自定义提示信息
+					username:{
+						//maxlength:'用户名最多为16位',
+						minlength:'用户名至少为2位',
+						required:'用户名必须填写'
+						//email:'请填写合格的电子邮件'
+					},
+					password:{
+						maxlength:'密码最多为8位',
+						minlength:'密码至少为2位',
+						required:'密码必须填写'
+					},
+					"confirm-password":{
+						equalTo:'两次输入的密码不一致'
+					}
+				},
+
+	//提供三个视觉方法，当出现错误时，淡入淡出提示用户
+			highlight:function(element,errorClass,validClass){
+				$(element).addClass(errorClass).removeClass(validClass);
+				$(element).fadeOut().fadeIn();
+			},
+			unhighlight:function(element,errorClass,validClass){
+				$(element).addClass(validClass).removeClass(errorClass);
+			},
+			 //提交操作，用此方法可以在控制台查看表单提交的内容
+			submitHandler: function (form){
+                console.log($(form).serialize());
+            }
+			});
+		});
+	</script>
+</body>
+</html>

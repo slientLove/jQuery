@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>表单操作</title>
+	<style type="text/css">
+		.sortable{ border: 1px solid black;margin: 20px auto; }
+		.odd{ background: #ccc; }
+		.even{ background: orange; }
+		.sortable .hover1{ background: red; }
+		.clickable{ background: #ccf; }
+		 th{ width: 100px;height: 30px;border: 1px solid black; }
+		 td{ width:100px;height:30px;border: 1px solid black;margin: 10px;}
+	</style>
+	<script src="jquery.js"></script>
+	<script>
+		$(document).ready(function(){
+			//先将设置表格行的颜色保存在一个函数中
+			var setColor = function($table){
+				//odd代表奇数行，even代表偶数行,利用这个交换变色行
+				$('  tbody tr:odd',$table).removeClass('even').addClass('odd');
+				$('  tbody tr:even',$table).removeClass('odd').addClass('even')
+			;}
+
+			$('table.sortable').each(function(){
+				var $table = $(this); 	//将作用域保存在一个变量中
+				setColor($table);		//设置表格的颜色和样式
+
+	//$接受第二个参数，作为作用域
+				$('th',$table).each(function(column){
+					if($(this).is('.sort-alpha')){
+						$(this).addClass('clickable').hover(function(){
+							$(this).addClass('hover1');	
+	//上面设置clickable时，一定要将将其选择符权重提得更高才行
+						},function(){
+							$(this).removeClass('hover1');
+						}).click(function(){
+	//此处利用get()方法将jQuery对象转换成DOM数组,这样就可以拥有数组的方法
+							var rows = $table.find('tbody>tr').get();
+							rows.sort(function(a,b){
+	//将文本都转换成大写，然后再进行比较
+								var keyA = $(a).children('td').eq(column).text().toUpperCase();
+								var keyB = $(b).children('td').eq(column).text().toUpperCase();
+								if(keyA<keyB) return -1;
+								if(keyA>keyB) return 1;
+								return 0;
+							});
+	//此出用全局方法$.each(),第个参数为一个数组或者映射，第二个回调函数参数为：当前索引和当前项
+							$.each(rows,function(index,row){
+								$table.children('tbody').append(row);
+							});
+	//在内容添加后，再次进行排序
+							setColor($table);
+						});
+					};
+				});
+			});
+		});
+	</script>
+	
+</head>
+<body>
+
+
+	<table class="sortable" cellpadding="0" cellspacing="0">
+		<thead>
+			<tr>
+				<th>ID值</th>
+				<th class="sort-alpha">Title</th>
+				<th>Author(s)</th>
+				<th>Public&nbsp;Date</th>
+				<th>Price</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>1</td>
+				<td>Building websties</td>
+				<td>Hagen Graf</td>
+				<td>Feb 2007</td>
+				<td>$40.49</td>
+			</tr>
+			<tr>
+				<td>2</td>
+				<td>Learning websties</td>
+				<td>Douglas Graf</td>
+				<td>Dec 2007</td>
+				<td>$40.49</td>
+			</tr>
+			<tr>
+				<td>3</td>
+				<td>Cuilding </td>
+				<td>Blus Graf</td>
+				<td>Ju 2005</td>
+				<td>$30.49</td>
+			</tr>
+			<tr>
+				<td>4</td>
+				<td>Auilding </td>
+				<td>Blus Graf</td>
+				<td>Ju 2005</td>
+				<td>$35.49</td>
+			</tr>
+			<tr>
+				<td>5</td>
+				<td>Guilding </td>
+				<td>Blus Graf</td>
+				<td>Ju 2005</td>
+				<td>$31.49</td>
+			</tr>
+			<tr>
+				<td>6</td>
+				<td>Duilding </td>
+				<td>Blus Graf</td>
+				<td>Ju 2005</td>
+				<td>$33.49</td>
+			</tr>
+			<tr>
+				<td>7</td>
+				<td>Kuilding </td>
+				<td>Blus Graf</td>
+				<td>Ju 2005</td>
+				<td>$25.49</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

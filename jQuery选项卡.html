@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>插件</title>
+	<style type="text/css">
+		*{margin: 0;padding: 0;}
+		#box{ width: 408px;height: 300px;border: 1px solid black;margin: 20px auto;overflow: hidden;}
+		#box ul{ list-style-type: none; }
+		.tab li{float: left;width: 100px;height: 20px;border: 1px dashed black;text-align: center;}
+		.text{width: 408px;height: 280px;border: 1px solid black;clear: both;}
+		.link{ background: #ccc; }
+		.hover{background: orange;}
+		.active{ background: orange; }
+	</style>
+	<script src="jquery.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			var aLi = $('ul').find('li');	//找到所有li
+			var oDiv = $('#box').find('div');
+			aLi.hover(function(){
+		//	此处attr内是class，不是className
+				aLi.attr('class','link');
+				$(this).attr('class','hover');
+				oDiv.hide();
+				oDiv.eq($(this).index()).show();	
+		//$(this).index()为获取li的索引值,并将与索引值相同的div显示出来
+
+			});
+		});
+	</script>
+</head>
+<body>
+		<div id="box">
+			<ul class="tab">
+				<li>1</li>
+				<li>2</li>
+				<li>3</li>
+				<li>4</li>
+			</ul>
+			<div class="text">选项一</div>
+			<div class="text">选项二</div>
+			<div class="text">选项三</div>
+			<div class="text">选项四</div>
+		</div>
+</body>
+</html>

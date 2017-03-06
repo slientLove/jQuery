@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>插件</title>
+	<style type="text/css">
+		
+	</style>
+	<script src="../jquery.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('ul').delegate('li','click',function(){
+				//this.style.background='red';
+				$(this).css('background','red');
+
+			//取消事件委托
+			//	$('ul').undelegate();
+			});
+		});
+	</script>
+</head>
+<body>
+	<ul>
+		<li>li</li>
+		<li>li</li>
+		<li>li</li>
+		<li>li</li>
+		<li>li</li>
+	</ul>
+</body>
+</html>

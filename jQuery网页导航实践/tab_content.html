@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>网页导航条</title>
+	<link rel="stylesheet" type="text/css" href="tab-style.css">
+	<script src="../jquery.js"></script>
+	<script>
+		$(document).ready(function(){
+			$(window).scroll(function(){
+				var top = $(window).scrollTop();	//距离顶部的高度
+				var menu = $("#tab").find('li');
+				var items = $('#content').find('.item');
+				var currentId = '';	 //设置变量用来控制导航条的当前id
+				items.each(function(){
+					var _this = $(this);
+					var disY = _this.offset().top;	//本元素距离顶部的高度
+					if(top>disY-200){		//判断当前高度和滚动高度的关系，适当减少高度可以更精确
+						currentId = "#"+_this.attr("id");	//取得导航条锚点
+					}else{
+						return false;	//否则就退出循环，这样可以省去不必的循环，提高性能
+					}
+				});
+				var currentLink = menu.find('.current');
+
+		//先判断currentId存不存在，并且判断当前锚点是不是当前元素
+				if(currentId&&currentLink!=currentId){
+					currentLink.removeClass('current');
+		//获取href属性为目标值的来链接，并且加上class样式
+					menu.find("[href="+currentId+"]").addClass('current');
+				}
+			});
+		});
+	</script>
+</head>
+<body>
+	<div id="tab">
+		<ul>
+			<li><a href="#item1" class="current">男装</a></li>
+			<li><a href="#item2">女装</a></li>
+			<li><a href="#item3">数码</a></li>
+			<li><a href="#item4">家电</a></li>
+			<li><a href="#item5">旅游</a></li>
+		</ul>
+	</div>
+	<div id="content">
+		<div id="item1" class="item">
+			<h3>男装</h3>
+			<ul>
+				<li><a href="#"><img src="img/psb.jpg"></a></li>
+				<li><a href="#"><img src="img/psb.jpg"></a></li>
+				<li><a href="#"><img src="img/psb.jpg"></a></li>
+				<li><a href="#"><img src="img/psb.jpg"></a></li>
+				<li><a href="#"><img src="img/psb.jpg"></a></li>
+				<li><a href="#"><img src="img/psb.jpg"></a></li>
+				<li><a href="#"><img src="img/psb.jpg"></a></li>
+				<li><a href="#"><img src="img/psb.jpg"></a></li>
+				<li><a href="#"><img src="img/psb.jpg"></a></li>
+			</ul>
+		</div>
+		<div id="item2" class="item">
+			<h3>女装</h3>
+			<ul>
+				<li><a href="#"><img src="img/西津古渡.jpg"></a></li>
+				<li><a href="#"><img src="img/西津古渡.jpg"></a></li>
+				<li><a href="#"><img src="img/西津古渡.jpg"></a></li>
+				<li><a href="#"><img src="img/西津古渡.jpg"></a></li>
+				<li><a href="#"><img src="img/西津古渡.jpg"></a></li>
+				<li><a href="#"><img src="img/西津古渡.jpg"></a></li>
+				<li><a href="#"><img src="img/西津古渡.jpg"></a></li>
+				<li><a href="#"><img src="img/西津古渡.jpg"></a></li>
+				<li><a href="#"><img src="img/西津古渡.jpg"></a></li>
+			</ul>
+		</div>
+		<div id="item3" class="item">
+			<h3>数码</h3>
+			<ul>
+				<li><a href="#"><img src="img/高架桥.jpg"></a></li>
+				<li><a href="#"><img src="img/高架桥.jpg"></a></li>
+				<li><a href="#"><img src="img/高架桥.jpg"></a></li>
+				<li><a href="#"><img src="img/高架桥.jpg"></a></li>
+				<li><a href="#"><img src="img/高架桥.jpg"></a></li>
+				<li><a href="#"><img src="img/高架桥.jpg"></a></li>
+				<li><a href="#"><img src="img/高架桥.jpg"></a></li>
+				<li><a href="#"><img src="img/高架桥.jpg"></a></li>
+				<li><a href="#"><img src="img/高架桥.jpg"></a></li>
+			</ul>
+		</div>
+		<div id="item4" class="item">
+			<h3>家电</h3>
+			<ul>
+				<li><a href="#"><img src="img/高楼.jpg"></a></li>
+				<li><a href="#"><img src="img/高楼.jpg"></a></li>
+				<li><a href="#"><img src="img/高楼.jpg"></a></li>
+				<li><a href="#"><img src="img/高楼.jpg"></a></li>
+				<li><a href="#"><img src="img/高楼.jpg"></a></li>
+				<li><a href="#"><img src="img/高楼.jpg"></a></li>
+				<li><a href="#"><img src="img/高楼.jpg"></a></li>
+				<li><a href="#"><img src="img/高楼.jpg"></a></li>
+				<li><a href="#"><img src="img/高楼.jpg"></a></li>
+			</ul>
+		</div>
+		<div id="item5" class="item">
+			<h3>旅游</h3>
+			<ul>
+				<li><a href="#"><img src="img/陆家嘴.jpg"></a></li>
+				<li><a href="#"><img src="img/陆家嘴.jpg"></a></li>
+				<li><a href="#"><img src="img/陆家嘴.jpg"></a></li>
+				<li><a href="#"><img src="img/陆家嘴.jpg"></a></li>
+				<li><a href="#"><img src="img/陆家嘴.jpg"></a></li>
+				<li><a href="#"><img src="img/陆家嘴.jpg"></a></li>
+				<li><a href="#"><img src="img/陆家嘴.jpg"></a></li>
+				<li><a href="#"><img src="img/陆家嘴.jpg"></a></li>
+				<li><a href="#"><img src="img/陆家嘴.jpg"></a></li>
+			</ul>
+		</div>
+	</div>
+</body>
+</html>

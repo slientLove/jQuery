@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>插件</title>
+	<style type="text/css">
+		
+	</style>
+	<script src="../jquery.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			//利用on可以同时添加多个事件
+			$('p').on('click mouseover',{name:'hello'},function(ev){
+				//alert(ev.data.name);		//弹出的是json里面的键值对
+				//alert(ev.target.nodeName);	//弹出的是元素目标值
+				alert(ev.type);			//获取事件类型
+			});
+		});
+	</script>
+</head>
+<body>
+	<p>p</p>
+</body>
+</html>

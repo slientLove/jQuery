@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>表单操作</title>
+	<style type="text/css">
+		.sortable{ border: 1px solid black;margin: 20px auto; }
+		.odd{ background: #ccc; }
+		.even{ background: orange; }
+		.sortable .hover{ background: red; }
+		.clickable{ background: #ccf; }
+		 th{ width: 100px;height: 30px;border: 1px solid black; }
+		 td{ width:100px;height:30px;border: 1px solid black;margin: 10px;}
+	</style>
+	<script src="jquery.js"></script>
+	<script>
+		//现在进行其他列数据类型的排序操作
+
+		//下面这个是扩展的插件，这样对象调用起来更加方便
+		$.fn.alternateRowColors = function(){
+			$('tbody tr:odd',this).removeClass('even').addClass('odd');
+			$('tbody tr:even',this).removeClass('odd').addClass('even');
+			return this;
+		};
+
+		$(document).ready(function(){
+			//重写自己的插件，并赋值一个参数
+			var alternateRowColors = function($table){
+				$('tbody tr:odd',this).removeClass('even').addClass('odd');
+				$('tbody tr:even',this).removeClass('odd').addClass('even');
+			};
+
+			$('table.sortable').each(function(){
+				//将当前作用域保存起来
+				var $table = $(this);
+				$table.alternateRowColors($table);
+				$('th',$table).each(function(column){		//循环每一列
+					var findSortKey;
+					if($(this).is('.sort-alpha')){
+						findSortKey = function($cell){
+							return $cell.find('.sort-key').text().toUpperCase()+' '+$cell.text().toUpperCase();
+						};
+					}else if($(this).is('.sort-numeric')){
+						findSortKey = function($cell){
+			//以空格代替文本首部的非数字字符，^\d.匹配以非数字字符开头的一个或多个字符
+							var key = parseFloat($cell.text().replace(/^[^\d.]*/,''));
+			//isNaN()检查是否提取的是数字，否则返回零
+							return isNaN(key)?0:key;
+						};
+					}
+					else if($(this).is('.sort-date')){
+						findSortKey = function($cell){
+					//由于Date.parse需要完整的格式，而文本只有年月，所以加上1形成日
+					//然后以时间戳的形式返回
+							return Date.parse('1'+$cell.text());
+						};
+					}
+
+					if(findSortKey){
+						$(this).addClass('clickable').hover(function(){
+							$(this).addClass('hover');
+						},function(){
+							$(this).removeClass('hover');
+						}).click(function(){
+					//此处还是用get()放法将jQuery对象转成DOM对象
+							var rows = $table.find('tbody>tr').get();
+
+							$.each(rows,function(index,row){
+					//给每一行增加一个属性，提前处理文本内容有利于提高性能
+								row.sortKey = findSortKey($(row).children('td').eq(column));
+					//$cell相当于$(row).children('td').eq(column)
+							});
+
+							rows.sort(function(a,b){
+								if(a.sortKey<b.sortKey) return -1;
+								if(a.sortKey>b.sortKey) return 1;
+					//比较失败，就返回0；
+								return 0;
+							});
+							$.each(rows,function(index,row){
+								$table.children('tbody').append(row);
+								row.sortKey = null;
+							});
+							$table.alternateRowColors($table);
+						});
+					}
+				});
+			});
+		});
+
+	//这样就完成了表格按不同内容进行排序的功能
+	</script>
+	
+</head>
+<body>
+
+
+	<table class="sortable" cellpadding="0" cellspacing="0">
+		<thead>
+			<tr>
+				<th>ID值</th>
+				<th class="sort-alpha">Title</th>
+				<th>Author(s)</th>
+				<th class="sort-date">Public&nbsp;Date</th>
+				<th class="sort-numeric">Price</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>1</td>
+				<td>Building websties</td>
+				<td>Hagen Graf</td>
+				<td>Feb 2007</td>
+				<td>$40.49</td>
+			</tr>
+			<tr>
+				<td>2</td>
+				<td>Learning websties</td>
+				<td>Douglas Graf</td>
+				<td>Dec 2007</td>
+				<td>$40.49</td>
+			</tr>
+			<tr>
+				<td>3</td>
+				<td>Cuilding </td>
+				<td>Blus Graf</td>
+				<td>Jun 2005</td>
+				<td>$30.49</td>
+			</tr>
+			<tr>
+				<td>4</td>
+				<td>Auilding </td>
+				<td>Blus Graf</td>
+				<td>Jun 2005</td>
+				<td>$35.49</td>
+			</tr>
+			<tr>
+				<td>5</td>
+				<td>Guilding </td>
+				<td>Blus Graf</td>
+				<td>Jun 2005</td>
+				<td>$31.49</td>
+			</tr>
+			<tr>
+				<td>6</td>
+				<td>Duilding </td>
+				<td>Blus Graf</td>
+				<td>Jun 2005</td>
+				<td>$33.49</td>
+			</tr>
+			<tr>
+				<td>7</td>
+				<td>Kuilding </td>
+				<td>Blus Graf</td>
+				<td>Jun 2005</td>
+				<td>$25.49</td>
+			</tr>
+			<tr>
+				<td>8</td>
+				<td>zuilding </td>
+				<td>Llus Graf</td>
+				<td>Jun 2006</td>
+				<td>$23.49</td>
+			</tr>
+			<tr>
+				<td>9</td>
+				<td>Puilding </td>
+				<td>Glus Graf</td>
+				<td>Jun 2003</td>
+				<td>$21.49</td>
+			</tr>
+			<tr>
+				<td>10</td>
+				<td>Wuilding </td>
+				<td>Plus Graf</td>
+				<td>Jun 2001</td>
+				<td>$20.49</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

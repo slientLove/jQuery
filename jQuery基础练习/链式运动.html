@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>插件</title>
+	<style type="text/css">
+		#div1{ width: 100px;height: 100px;background: red; }
+		#div2{ width: 100px;height: 100px;background: green; }
+	</style>
+	<script src="../jquery.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#div1').click(function(){
+				$(this).animate({'width':'200px','height':'200px'},2000);
+				$('#div2').animate({'width':'200px'},2000).animate({'height':'200px'},2000);
+			});
+			$('#div2').click(function(){
+	//stop()方法只会暂停当前一个运动，后面的还会继续运动,stop(true)会暂停所有运动,stop(true,true)在停止之前，会将第一个运动瞬间到达目标值
+				$('#div2').stop(true);
+			});
+		});
+	</script>
+</head>
+<body>
+	<div id="div1"></div>
+	<div id="div2"></div>
+</body>
+</html>
